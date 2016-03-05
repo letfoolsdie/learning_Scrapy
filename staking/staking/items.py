@@ -11,4 +11,7 @@ import scrapy
 class StakingItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    link = scrapy.Field()
+    title = scrapy.Field()
+    
     pass
