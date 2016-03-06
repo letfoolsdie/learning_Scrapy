@@ -6,6 +6,7 @@ Created on Sat Mar 05 21:56:03 2016
 """
 
 import scrapy
+from staking.items import StakingItem
 
 class StakingSpider(scrapy.Spider):
     name = "staking"
@@ -16,8 +17,10 @@ class StakingSpider(scrapy.Spider):
     
     def parse(self, response):
         for sel in response.xpath('//tr/td/h2/a'):
-            link = sel.xpath('@href').extract()
-            title = sel.xpath('text()').extract()
-            print title, link
+            item = StakingItem()
+            item['link'] = sel.xpath('@href').extract()
+            item['title'] = sel.xpath('text()').extract()
+            yield item
+#            print title, link
             
         
