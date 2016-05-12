@@ -14,6 +14,8 @@ BOT_NAME = 'staking'
 SPIDER_MODULES = ['staking.spiders']
 NEWSPIDER_MODULE = 'staking.spiders'
 
+LOG_STDOUT = True
+LOG_FILE = 'C:\Users\Nikolay\Desktop\scrapy\staking\staking\scrapy_output.txt'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'staking (+http://www.yourdomain.com)'

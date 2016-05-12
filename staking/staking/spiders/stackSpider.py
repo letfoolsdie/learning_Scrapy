@@ -18,9 +18,24 @@ class StakingSpider(scrapy.Spider):
     def parse(self, response):
         for sel in response.xpath('//tr/td/h2/a'):
             item = StakingItem()
-            item['link'] = sel.xpath('@href').extract()
-            item['title'] = sel.xpath('text()').extract()
-            yield item
-#            print title, link
-            
-        
+            item['link'] = [i.replace('first-unread', '') for i in sel.xpath('@href').extract()]
+            item['title'] = sel.xpath('text()').extract()[0]
+            stake_url = response.urljoin(item['link'][0])
+            request = scrapy.Request(stake_url, callback=self.get_stake_data)
+            request.meta['item'] = item
+            yield request
+
+    
+    def get_stake_data(self, response):
+        item = response.meta['item']
+        data = response.xpath('//table[@class="saids_stats"]//tr//td[not(@class)]//text()').extract()
+        item['total_buyin'] = data[0]
+        item['percent_for_sale'] = data[1]
+        item['coef'] = data[2]
+        item['min_share'] = data[3]
+        item['booking_ending'] = data[4]
+        if len(data) > 5:   ##yeah, this is stupid
+            item['special_cond'] = data[5] 
+        else:
+            item['special_cond'] = 'None'
+        yield item

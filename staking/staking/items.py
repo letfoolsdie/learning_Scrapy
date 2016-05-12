@@ -13,5 +13,10 @@ class StakingItem(scrapy.Item):
     # name = scrapy.Field()
     link = scrapy.Field()
     title = scrapy.Field()
-    
+    total_buyin = scrapy.Field()
+    percent_for_sale = scrapy.Field()
+    coef = scrapy.Field()
+    min_share = scrapy.Field()
+    booking_ending = scrapy.Field()
+    special_cond = scrapy.Field()
     pass
