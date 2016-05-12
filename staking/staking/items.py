@@ -19,4 +19,5 @@ class StakingItem(scrapy.Item):
     min_share = scrapy.Field()
     booking_ending = scrapy.Field()
     special_cond = scrapy.Field()
-    pass
+    result = scrapy.Field()
+    deal_status = scrapy.Field()

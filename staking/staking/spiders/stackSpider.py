@@ -11,9 +11,7 @@ from staking.items import StakingItem
 class StakingSpider(scrapy.Spider):
     name = "staking"
     allowed_domains = ["gipsyteam.ru"]
-    start_urls = [
-    "http://forum.gipsyteam.ru/backing/forum?fid=43"
-       ]
+    start_urls = ['http://forum.gipsyteam.ru/backing/forum?fid=43&page='+str(i) for i in range(1,50)]#['http://forum.gipsyteam.ru/backing/forum?fid=43&page=22']
     
     def parse(self, response):
         for sel in response.xpath('//tr/td/h2/a'):
@@ -38,4 +36,10 @@ class StakingSpider(scrapy.Spider):
             item['special_cond'] = data[5] 
         else:
             item['special_cond'] = 'None'
+        result = response.xpath('//div[@class="b_result"]//span//text()').extract()
+        if len(result) > 0:
+            item['result'] = result[0]
+        status = response.xpath('//span[contains(@class, "b_status")]//text()').extract()
+        if len(status) > 0:
+            item['deal_status'] = status[0]
         yield item
